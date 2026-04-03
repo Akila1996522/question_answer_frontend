@@ -19,15 +19,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     - name: Scan for vulnerabilities
       uses: actions/npm@v4
       with:
         command: audit
         cache: true
+    
     - name: Run Snyk to check for vulnerabilities
     - uses: snyk/actions/setup@master
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    - name: Download Snyk test results
+      uses: actions/download-artifact@v4
+      with:
+        name: snyk-test-results
+        path: ./snyk-test-results
     - name: Snyk test
       run: snyk test --org=qabuild --project-name=question-answer-frontend
 
