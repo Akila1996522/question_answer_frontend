@@ -130,12 +130,17 @@ jobs:
         echo "OWNER=$OWNER" >> $GITHUB_ENV
         echo "version_tag=$SEMVER" >> $GITHUB_OUTPUT
 
+    - name: Log in to GHCR
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+
     - name: Build image metadata
       id: metadata
       run: |
         IMAGE_NAME="ghcr.io/$OWNER/question-answer-frontend-$BRANCH_NAME:$VERSION_TAG"
         echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
         echo "image_name=$IMAGE_NAME" >> $GITHUB_OUTPUT
+        docker build -t "$IMAGE_NAME" .
+        docker push "$IMAGE_NAME"
 
   deploy:
     runs-on: ubuntu-latest
