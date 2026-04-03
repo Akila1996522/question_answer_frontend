@@ -78,12 +78,6 @@ jobs:
         name: test-coverage
         path: ./coverage
 
-    - name: Download test coverage
-      uses: actions/download-artifact@v4
-      with:
-        name: test-coverage
-        path: ./coverage
-
 
   build:
     runs-on: ubuntu-latest
