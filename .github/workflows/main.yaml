@@ -123,7 +123,7 @@ jobs:
 
     - name: Read version values
       run: |
-        SEMVER=$(jq -r .SemVer gitversion.json)
+        SEMVER=$(jq -r .version package.json)
         OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
         echo "VERSION_TAG=$SEMVER" >> $GITHUB_ENV
         echo "OWNER=$OWNER" >> $GITHUB_ENV
