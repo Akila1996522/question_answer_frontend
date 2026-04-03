@@ -100,7 +100,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     outputs:
-      version_tag: ${{ steps.metadata.outputs.version_tag }}
+      version_tag: ${{ steps.version.outputs.version_tag }}
       image_name: ${{ steps.metadata.outputs.image_name }}
       branch_name: ${{ steps.branch.outputs.branch_name }}
     steps:
@@ -122,11 +122,20 @@ jobs:
         echo "branch_name=$SAFE_BRANCH" >> $GITHUB_OUTPUT
 
     - name: Read version values
+      id: version
       run: |
         SEMVER=$(jq -r .version package.json)
         OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
         echo "VERSION_TAG=$SEMVER" >> $GITHUB_ENV
         echo "OWNER=$OWNER" >> $GITHUB_ENV
+        echo "version_tag=$SEMVER" >> $GITHUB_OUTPUT
+
+    - name: Build image metadata
+      id: metadata
+      run: |
+        IMAGE_NAME="ghcr.io/$OWNER/question-answer-frontend-$BRANCH_NAME:$VERSION_TAG"
+        echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
+        echo "image_name=$IMAGE_NAME" >> $GITHUB_OUTPUT
 
   deploy:
     runs-on: ubuntu-latest
