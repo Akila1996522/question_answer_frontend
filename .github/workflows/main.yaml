@@ -28,9 +28,10 @@ jobs:
         cache: true
     
     - name: Run Snyk to check for vulnerabilities
-    - uses: snyk/actions/setup@master
+      uses: snyk/actions/setup@master
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        
     - name: Download Snyk test results
       uses: actions/download-artifact@v4
       with:
