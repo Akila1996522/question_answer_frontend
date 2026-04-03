@@ -83,7 +83,7 @@ jobs:
       run: npm run build
 
     - name: Build the application
-      run: npm run build
+      run: npm run build && ls -alt && pwd
 
     - name: Upload build artifact
       uses: actions/upload-artifact@v4
@@ -93,6 +93,8 @@ jobs:
         retention-days: 1
         if-no-files-found: error
         include-hidden-files: true
+
+    
 
   push:
     runs-on: ubuntu-latest
