@@ -91,6 +91,8 @@ jobs:
         name: build-output
         path: .next
         retention-days: 1
+        if-no-files-found: error
+        include-hidden-files: true
 
   push:
     runs-on: ubuntu-latest
